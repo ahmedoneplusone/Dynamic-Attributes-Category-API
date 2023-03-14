@@ -12,7 +12,7 @@ using Repository;
 namespace Dynamic.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20230312113549_init")]
+    [Migration("20230314084544_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

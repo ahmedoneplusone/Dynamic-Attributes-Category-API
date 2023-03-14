@@ -37,16 +37,16 @@ namespace Dynamic.Presentation.Controllers
         }
 
         [HttpGet("{id:int}", Name = "GetCategoryById")]
-        public async Task<IActionResult> GetCategoryById(int id, [FromQuery] string[] includes)
+        public async Task<IActionResult> GetCategoryById(int id, [FromQuery] string includes)
         {
             var Category = await _service.CategoryService.GetCategoryByIdAsync(id, includes, trackChanges: false);
             return Ok(Category);
         }
 
         [HttpGet("collection/({ids})", Name = "GetCategoriesByIds")]
-        public async Task<IActionResult> GetCategoriesByIds([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<int> ids)
+        public async Task<IActionResult> GetCategoriesByIds([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<int> ids, string includes)
         {
-            var categories = await _service.CategoryService.GetCategoriesByIdsAsync(ids, trackChanges: false);
+            var categories = await _service.CategoryService.GetCategoriesByIdsAsync(ids, includes: includes, trackChanges: false);
             return Ok(categories);
         }
 

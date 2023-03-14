@@ -32,18 +32,14 @@ namespace Repository
             return new PagedList<Category>(Categories, count, categoryParameters.PageNumber, categoryParameters.PageSize);
         }
 
-        public async Task<Category> GetCategoryByIdAsync(int categoryId, string[] includes, bool trackChanges)
+        public async Task<Category> GetCategoryByIdAsync(int categoryId, string includes, bool trackChanges)
         {
-            var query = FindByCondition(c => c.Id.Equals(categoryId), trackChanges).AsQueryable();
-            foreach (string include in includes)
-            {
-                query = query.Include(include);
-            }
+            var query = FindByCondition(c => c.Id.Equals(categoryId), trackChanges).AsQueryable().CustomInclude(includes != null ? includes : "");
             return await query.SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Category>> GetCategoriesByIdsAsync(IEnumerable<int> ids, bool trackChanges) => 
-            await FindByCondition(x => ids.Contains(x.Id), trackChanges).OrderBy(c => c.Name).ToListAsync();
+        public async Task<IEnumerable<Category>> GetCategoriesByIdsAsync(IEnumerable<int> ids, string includes, bool trackChanges) => 
+            await FindByCondition(x => ids.Contains(x.Id), trackChanges).CustomInclude(includes != null ? includes : "").OrderBy(c => c.Name).ToListAsync();
 
         public async Task<bool> HasChildCategory(int categoryId, bool trackChanges) =>
             await FindByCondition(x => x.ParentCategoryId.Equals(categoryId),trackChanges).CountAsync() > 0 ? true : false;

@@ -8,6 +8,7 @@ using Service.Interfaces;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Dynamic.Extensions
 {
@@ -23,11 +24,12 @@ namespace Dynamic.Extensions
         public static void ConfigureIISIntegration(this IServiceCollection services) =>
            services.Configure<IISOptions>(options =>
            {
-
            });
 
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
-           services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
+           services.AddDbContext<RepositoryContext>(options => options
+           .UseSqlServer(configuration.GetConnectionString("sqlConnection"))
+           .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.InvalidIncludePathError)));
         public static void ConfigureLoggerService(this IServiceCollection services) =>
             services.AddSingleton<ILoggerManager, LoggerManager>();
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>

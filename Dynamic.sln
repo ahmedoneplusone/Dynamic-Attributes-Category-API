@@ -13,13 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerService", "LoggerService\LoggerService.csproj", "{EFADD172-D37A-4BBD-BE4E-6698C9537B7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interfaces", "Interfaces\Interfaces.csproj", "{D230337D-9483-4F40-856D-89CD3BDC2DB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "Interfaces\Interfaces.csproj", "{D230337D-9483-4F40-856D-89CD3BDC2DB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{C53F8938-36EC-4560-AF15-2D18DED06A0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{C53F8938-36EC-4560-AF15-2D18DED06A0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{BFE35C40-F897-4FE5-9F75-037BFBD735D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{BFE35C40-F897-4FE5-9F75-037BFBD735D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Interfaces", "Service.Interfaces\Service.Interfaces.csproj", "{01245939-E9F9-4469-A016-C8FBE0EB28EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Interfaces", "Service.Interfaces\Service.Interfaces.csproj", "{01245939-E9F9-4469-A016-C8FBE0EB28EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

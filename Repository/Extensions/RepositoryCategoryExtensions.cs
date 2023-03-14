@@ -1,5 +1,4 @@
-﻿using Interfaces;
-using Entities.Models;
+﻿using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using Repository.Extensions.Utility;
@@ -29,22 +28,16 @@ namespace Repository.Extensions
 
             return categories.Where(e => e.Name.ToLower().Contains(lowerCaseTerm));
         }
+
         public static IQueryable<Category> CustomInclude(this IQueryable<Category> categories, string includes)
         {
             if (string.IsNullOrWhiteSpace(includes)) return categories;
 
             var IncludesArray = includes.Split(",");
 
-            foreach(var include in IncludesArray)
+            foreach (var include in IncludesArray)
             {
-                try
-                {
-                    categories = categories.Include(include);
-                }
-                catch(Exception e)
-                {
-                   // try to get _Logger to log error
-                }
+               categories = categories.Include(include);
             }
 
             return categories;

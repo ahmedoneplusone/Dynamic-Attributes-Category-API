@@ -26,10 +26,10 @@ namespace Service
             var categoriesWithMetaData = await _repo.Category.GetAllCategoriesAsync(categoryParameters, trackChanges);
             var categoriesDto = _mapper.Map<IEnumerable<CategoryDto>>(categoriesWithMetaData);
 
-            return (companies: categoriesDto, metaData: categoriesWithMetaData.MetaData);
+            return (categories: categoriesDto, metaData: categoriesWithMetaData.MetaData);
         }
 
-        public async Task<CategoryDto> GetCategoryByIdAsync(int categoryId, string[] includes, bool trackChanges)
+        public async Task<CategoryDto> GetCategoryByIdAsync(int categoryId, string includes, bool trackChanges)
         {
             var category = await GetCategoryAndCheckIfItExists(categoryId, includes, trackChanges);
 
@@ -37,12 +37,12 @@ namespace Service
             return categoryDto;
         }
 
-        public async Task<IEnumerable<CategoryDto>> GetCategoriesByIdsAsync(IEnumerable<int> ids, bool trackChanges)
+        public async Task<IEnumerable<CategoryDto>> GetCategoriesByIdsAsync(IEnumerable<int> ids, string includes, bool trackChanges)
         {
             if (ids is null)
                 throw new IdParametersBadRequestException();
 
-            var categoryEntities = await _repo.Category.GetCategoriesByIdsAsync(ids, trackChanges);
+            var categoryEntities = await _repo.Category.GetCategoriesByIdsAsync(ids, includes, trackChanges);
 
             if (ids.Count() != categoryEntities.Count())
                 throw new CollectionByIdsBadRequestException();
@@ -82,7 +82,7 @@ namespace Service
 
         public async Task DeleteCategoryAsync(int categoryId, bool trackChanges)
         {
-            var category = await GetCategoryAndCheckIfItExists(categoryId, new string[] { }, trackChanges);
+            var category = await GetCategoryAndCheckIfItExists(categoryId, includes: "", trackChanges);
 
             var hasChildrenCategory = await _repo.Category.HasChildCategory(categoryId, trackChanges);
             if (hasChildrenCategory == null || hasChildrenCategory)
@@ -94,7 +94,7 @@ namespace Service
 
         public async Task UpdateCategoryAsync(int categoryId, CategoryForUpdateDto categoryForUpdate, bool trackChanges)
         {
-            var categoryEntity = await GetCategoryAndCheckIfItExists(categoryId, new string[] { }, trackChanges);
+            var categoryEntity = await GetCategoryAndCheckIfItExists(categoryId, includes: "", trackChanges);
 
             _mapper.Map(categoryForUpdate, categoryEntity);
             await _repo.SaveAsync();
@@ -102,7 +102,7 @@ namespace Service
 
         public async Task<(CategoryForUpdateDto categoryToPatch, Category categoryEntity)> GetCategoryForPatchAsync(int categoryId, bool categoryTrackChanges)
         {
-            var categoryEntity = await _repo.Category.GetCategoryByIdAsync(categoryId, new string[] { }, categoryTrackChanges);
+            var categoryEntity = await _repo.Category.GetCategoryByIdAsync(categoryId, includes: "", categoryTrackChanges);
             if (categoryEntity is null)
                 throw new CategoryNotFoundException(categoryId);
 
@@ -116,7 +116,7 @@ namespace Service
             await _repo.SaveAsync();
         }
 
-        private async Task<Category> GetCategoryAndCheckIfItExists(int id, string[] includes, bool trackChanges) { 
+        private async Task<Category> GetCategoryAndCheckIfItExists(int id, string includes, bool trackChanges) { 
             var category = await _repo.Category.GetCategoryByIdAsync(id, includes, trackChanges);
             if (category is null)
                 throw new CategoryNotFoundException(id);
